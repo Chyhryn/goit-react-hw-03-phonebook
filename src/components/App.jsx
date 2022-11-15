@@ -11,6 +11,22 @@ export class App extends React.Component {
     filter: '',
   };
 
+  componentDidMount() {
+    const getLocalStorageContacts = JSON.parse(
+      localStorage.getItem('contacts')
+    );
+    if (getLocalStorageContacts) {
+      this.setState({
+        contacts: [...getLocalStorageContacts],
+      });
+    }
+  }
+
+  componentDidUpdate() {
+    const data = JSON.stringify(this.state.contacts);
+    localStorage.setItem('contacts', data);
+  }
+
   submitFormHendler = (name, number) => {
     this.setState(({ contacts }) => ({
       contacts: [...contacts, { name, number, id: nanoid() }],
